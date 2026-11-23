@@ -54,6 +54,8 @@ These override the design document where they differ.
 - The reading chore is removed (homework was already in the list), and
   «Накрыть на стол» became «Приготовить покушать».
 - The reel spins for 10 seconds.
+- «Написать диктант» is added to the chores. It was placed by hand on the
+  28 November door; nothing was re-dealt.
 - The app says outright that every chore is done by the child who uses the
   calendar, and that the prizes go to the same child: a line under each
   revealed drop and a rule at the top of «Мои подарки».

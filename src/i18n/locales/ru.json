@@ -15,7 +15,8 @@
     "trash": "Вынести мусор",
     "laundry": "Положить грязную одежду в корзину для белья",
     "cook": "Приготовить покушать",
-    "waterPlants": "Полить цветы"
+    "waterPlants": "Полить цветы",
+    "dictation": "Написать диктант"
   },
   "dropShort": {
     "roblox2": "Roblox $2",
@@ -31,7 +32,8 @@
     "trash": "Мусор",
     "laundry": "Одежда",
     "cook": "Еда",
-    "waterPlants": "Цветы"
+    "waterPlants": "Цветы",
+    "dictation": "Диктант"
   },
   "calendar": { "gifts": "Мои подарки" },
   "stage": {
