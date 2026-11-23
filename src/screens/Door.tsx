@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { DropCard } from '../components/DropCard.tsx'
 import type { DoorState } from '../calendar/logic.ts'
 import type { DealDoor } from '../deal/types.ts'
+import { unlockAudio } from '../sound/sound.ts'
 
 interface DoorProps {
   door: DealDoor
@@ -14,8 +15,13 @@ export function Door({ door, state, onTap }: DoorProps) {
   const [shaking, setShaking] = useState(false)
 
   const tap = () => {
-    if (state === 'locked') setShaking(true)
-    else onTap()
+    if (state === 'locked') {
+      setShaking(true)
+      return
+    }
+    // iOS only lets sound start inside a tap, so wake the audio before the case appears.
+    if (state === 'available') unlockAudio()
+    onTap()
   }
 
   return (

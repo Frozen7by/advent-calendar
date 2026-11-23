@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DropCard } from '../components/DropCard.tsx'
+import { ROBLOX } from '../deal/drops.ts'
 import type { DealDoor } from '../deal/types.ts'
+import { playFanfare, playTick, unlockAudio } from '../sound/sound.ts'
 import { CaseBox } from './CaseBox.tsx'
 import { flowReducer, initialFlow } from './flow.ts'
 import { Reel } from './Reel.tsx'
@@ -24,13 +26,17 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
 
   const tapCase = () => {
     if (flow.phase !== 'case') return
+    unlockAudio()
     // Record first: if the app is closed from here on, the door stays opened
     // and the animation is never offered again.
     if (flow.caseIndex === 0) onOpened(door.day)
     setFlow(flowReducer(flow, 'tapCase', door.cases.length))
   }
 
-  const reelStopped = () => setFlow((state) => flowReducer(state, 'reelStopped', door.cases.length))
+  const reelStopped = () => {
+    setFlow((state) => flowReducer(state, 'reelStopped', door.cases.length))
+    playFanfare(current.drop === ROBLOX)
+  }
 
   const collect = () => {
     const next = flowReducer(flow, 'collect', door.cases.length)
@@ -54,7 +60,7 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
       {flow.phase === 'spinning' && (
         <div className="stage__scene">
           <h2 className="stage__title">{caseTitle}</h2>
-          <Reel key={flow.caseIndex} win={current.drop} onStop={reelStopped} />
+          <Reel key={flow.caseIndex} win={current.drop} onStop={reelStopped} onTick={playTick} />
         </div>
       )}
       {flow.phase === 'revealed' && (
