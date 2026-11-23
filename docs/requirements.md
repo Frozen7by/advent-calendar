@@ -32,11 +32,12 @@ A mobile advent calendar for one child, with impressive ("sick") animations.
 - All UI strings go through i18next.
 - Russian is the primary language: strings are authored in Russian first.
 
-## Not yet decided
+## Decided later
 
-- How many doors there are and which dates they cover.
-- Which door gets which case grade.
-- The actual drop chances per grade.
-- The full list of responsibilities and whether there are other good drops.
-- Whether a door can be opened late, and what stops opening doors early.
-- How the parent learns what dropped (the app has no backend).
+The door count, grades, drop chances, the reel-style case opening and the
+«Мои подарки» page were settled on 2026-11-23. See the design:
+[superpowers/specs/2026-11-23-advent-calendar-design.md](superpowers/specs/2026-11-23-advent-calendar-design.md).
+
+## Hosting
+
+- GitHub Pages, from a public repository.
