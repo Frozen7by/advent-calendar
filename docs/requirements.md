@@ -56,6 +56,10 @@ These override the design document where they differ.
 - The reel spins for 10 seconds.
 - «Написать диктант» is added to the chores. It was placed by hand on the
   28 November door; nothing was re-dealt.
+- An installed app updates itself: it looks for a new version whenever it is
+  opened or brought to the front, and reloads once the version has arrived,
+  but never while a door is opening. The version (commit count and short hash)
+  is shown at the bottom of «Мои подарки».
 - A prize need not be Roblox: «Бутерброд без ничего» is a joke prize the
   parent placed by hand, as a bonus rare case on the 24 November door (the one
   exception to "no bonus cases in November"). Such prizes look and sound like

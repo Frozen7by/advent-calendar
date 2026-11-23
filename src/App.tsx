@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { giftList, resolveNow } from './calendar/logic.ts'
 import { useNow } from './calendar/useNow.ts'
 import { useOpened } from './calendar/useOpened.ts'
@@ -6,6 +6,7 @@ import { dealProblems, doors } from './data/deal.ts'
 import { OpeningStage } from './opening/OpeningStage.tsx'
 import { CalendarScreen } from './screens/CalendarScreen.tsx'
 import { GiftsScreen } from './screens/GiftsScreen.tsx'
+import { updater } from './update/autoUpdate.ts'
 
 const currentTime = () => resolveNow(new Date(), window.location.search, import.meta.env.DEV)
 
@@ -16,6 +17,10 @@ function App() {
   // A tapped door first swings open (swingingDoor), then its case is shown (openingDoorId).
   const [swingingDoor, setSwingingDoor] = useState<string | null>(null)
   const [openingDoorId, setOpeningDoorId] = useState<string | null>(null)
+
+  // A new version must not reload the app while a door is swinging open or its case is on screen.
+  const doorOpening = swingingDoor !== null || openingDoorId !== null
+  useEffect(() => updater.setBusy(doorOpening), [doorOpening])
 
   // A hand-edit mistake in a deal file is shown here, in development, before it can be deployed.
   if (import.meta.env.DEV && dealProblems.length > 0) {

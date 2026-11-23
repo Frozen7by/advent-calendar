@@ -62,13 +62,24 @@
   text-align: center;
 }
 
+/* Small print at the bottom, for the parent. */
+.gifts__version {
+  flex: none;
+  margin: 0;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  color: var(--ice);
+  font-size: 12px;
+  opacity: 0.6;
+  text-align: center;
+}
+
 .gifts__list {
   flex: 1;
   min-height: 0;
   width: 100%;
   max-width: 640px;
   margin: 0 auto;
-  padding: 2px 0 max(16px, env(safe-area-inset-bottom));
+  padding: 2px 0 8px;
   list-style: none;
   overflow-y: auto;
   overscroll-behavior: contain;

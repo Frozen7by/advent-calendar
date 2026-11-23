@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { MONTH_KEY } from '../calendar/logic.ts'
 import type { Gift } from '../calendar/logic.ts'
 import { DROP_ICONS, isPrize } from '../deal/drops.ts'
+import { APP_VERSION } from '../update/version.ts'
 import './gifts.css'
 
 interface GiftsScreenProps {
@@ -49,6 +50,8 @@ export function GiftsScreen({ gifts, onBack }: GiftsScreenProps) {
           ))}
         </ul>
       )}
+      {/* For the parent: tells whether this device already runs the latest deploy. */}
+      <p className="gifts__version">{t('gifts.version', { version: APP_VERSION })}</p>
     </main>
   )
 }

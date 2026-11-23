@@ -52,6 +52,23 @@ Once a month's first door is open (23 November for `november.json`,
 
 - Never run `npm run deal` again, and only edit doors that are not opened yet.
   Opened doors and «Мои подарки» read this file, so their drops would change.
-- After deploying a changed deal, open the app on each device while online,
-  wait a few seconds, then close it fully and open it again. The first launch
-  after a deploy still runs the previous version while the new one downloads.
+
+## Updates on the devices
+
+An installed app updates itself. Whenever it is opened or brought back to the
+front while online, it asks the server for a newer version, downloads it in
+the background (a few seconds) and reloads on its own. It never reloads while
+a door is opening: the reload waits until the case has been collected.
+
+The running version is printed in small type at the bottom of «Мои подарки»,
+like `Версия 36 · a721572`: the number of commits in the build and the short
+hash of the last one. After a deploy, compare it with the newest commit on
+GitHub to see whether a device has caught up.
+
+- GitHub Pages can keep serving the previous build for up to ten minutes after
+  a deploy finishes.
+- A door opened in the seconds before the reload still shows the previous
+  version's drop for that door.
+- A device still running a build from before self-updating was added (no
+  version line on «Мои подарки») has to be updated by hand once: open the app
+  while online, wait a few seconds, close it fully and open it again.
