@@ -1,0 +1,98 @@
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(16px, env(safe-area-inset-top)) 0 max(16px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--grade) 38%, transparent), transparent 62%),
+    var(--night-deep);
+  overflow: hidden;
+}
+
+.stage__scene {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.stage__title {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(22px, 6vw, 34px);
+  font-weight: 800;
+  color: var(--grade);
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.45);
+}
+
+.stage__bonus {
+  margin: 0;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #3d2600;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.stage__hint {
+  margin: 0;
+  color: var(--ice);
+  font-size: 18px;
+}
+
+/* The case: a chunky crate with a lid and a gold lock. */
+.case-box {
+  position: relative;
+  width: 190px;
+  height: 160px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  filter: drop-shadow(0 0 26px color-mix(in srgb, var(--grade) 70%, transparent));
+}
+
+.case-box__body,
+.case-box__lid {
+  position: absolute;
+  box-sizing: border-box;
+  border: 5px solid color-mix(in srgb, var(--grade) 45%, white);
+}
+
+.case-box__body {
+  left: 6px;
+  right: 6px;
+  bottom: 0;
+  height: 104px;
+  border-radius: 16px;
+  background: linear-gradient(color-mix(in srgb, var(--grade) 88%, white), color-mix(in srgb, var(--grade) 70%, black));
+  box-shadow: 0 9px 0 rgba(0, 0, 0, 0.4);
+}
+
+.case-box__lid {
+  left: 0;
+  right: 0;
+  top: 8px;
+  height: 62px;
+  border-radius: 22px 22px 10px 10px;
+  background: linear-gradient(color-mix(in srgb, var(--grade) 60%, white), var(--grade));
+}
+
+.case-box__lock {
+  position: absolute;
+  left: 50%;
+  top: 52px;
+  width: 38px;
+  height: 44px;
+  margin-left: -19px;
+  box-sizing: border-box;
+  border: 4px solid #fff3cf;
+  border-radius: 10px;
+  background: var(--gold);
+}

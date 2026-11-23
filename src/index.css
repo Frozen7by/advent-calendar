@@ -1,14 +1,44 @@
-:root {
-  --bg: #12203a;
-  --text: #f4f1ea;
-  --text-muted: #a9b4c9;
+@import '@fontsource-variable/unbounded/wght.css';
+@import '@fontsource-variable/nunito/wght.css';
 
-  font: 18px/1.45 system-ui, 'Segoe UI', Roboto, sans-serif;
+:root {
+  --night: #0e1b3d;
+  --night-deep: #081029;
+  --snow: #f2f6ff;
+  --ice: #9fc3ff;
+  --candy: #e23b4e;
+  --gold: #ffd166;
+  --card: #1c2f63;
+  --card-edge: #3a56a3;
+
+  --grade-common: #8b9bb4;
+  --grade-uncommon: #4cc38a;
+  --grade-rare: #4c8dff;
+  --grade-epic: #b05cff;
+  --grade: var(--grade-common);
+
+  --display: 'Unbounded Variable', system-ui, sans-serif;
+  --text: 'Nunito Variable', system-ui, sans-serif;
+
+  font: 600 18px/1.4 var(--text);
   color-scheme: dark;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--snow);
+  background: var(--night);
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
+}
+
+[data-grade='common'] {
+  --grade: var(--grade-common);
+}
+[data-grade='uncommon'] {
+  --grade: var(--grade-uncommon);
+}
+[data-grade='rare'] {
+  --grade: var(--grade-rare);
+}
+[data-grade='epic'] {
+  --grade: var(--grade-epic);
 }
 
 *,
@@ -20,6 +50,7 @@
 html,
 body {
   margin: 0;
+  height: 100%;
   /* App-like feel on touch devices: no rubber-band scroll, tap flash or text selection. */
   overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
@@ -28,25 +59,35 @@ body {
   touch-action: manipulation;
 }
 
-.app {
-  min-height: 100dvh;
-  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
-    max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  text-align: center;
+#root {
+  height: 100%;
 }
 
-h1 {
-  margin: 0;
-  font-size: clamp(32px, 8vw, 64px);
-  line-height: 1.1;
+button {
+  font: inherit;
+  color: inherit;
 }
 
-p {
-  margin: 0;
-  color: var(--text-muted);
+button:focus-visible {
+  outline: 3px solid var(--snow);
+  outline-offset: 3px;
+}
+
+/* A big pressable game button: flat face on a hard shadow that it sinks into. */
+.chunky-button {
+  padding: 14px 34px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--gold);
+  color: #3d2600;
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 0 7px 0 #b97a1c;
+  cursor: pointer;
+}
+
+.chunky-button:active {
+  transform: translateY(5px);
+  box-shadow: 0 2px 0 #b97a1c;
 }
