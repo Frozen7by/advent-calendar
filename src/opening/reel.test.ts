@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { mulberry32 } from '../deal/rules.ts'
 import { isRoblox } from '../deal/drops.ts'
-import { CARD_GAP, CARD_W, SPIN_MS, STRIP_LEN, WIN_INDEX, buildStrip, reelOffset } from './reel.ts'
+import { CARD_GAP, CARD_W, SPIN_EASE, SPIN_MS, STRIP_LEN, WIN_INDEX, buildStrip, reelOffset } from './reel.ts'
 
 const STEP = CARD_W + CARD_GAP
 
@@ -29,6 +29,12 @@ it('builds a strip with the drop on the winning index', () => {
 it('mixes gold cards into the filler by GOLD_SHARE', () => {
   expect(buildStrip('trash', () => 0.5).filter(isRoblox)).toHaveLength(0)
   expect(buildStrip('trash', () => 0).filter(isRoblox)).toHaveLength(STRIP_LEN - 1)
+})
+
+it('starts slowly enough to read the cards', () => {
+  // Speed at the first instant: the average speed times the easing curve's initial slope.
+  const cardsPerSecondAtStart = (WIN_INDEX / (SPIN_MS / 1000)) * (SPIN_EASE[1] / SPIN_EASE[0])
+  expect(cardsPerSecondAtStart).toBeLessThanOrEqual(10)
 })
 
 it('spins for ten seconds', () => {
