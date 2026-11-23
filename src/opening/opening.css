@@ -3,16 +3,17 @@
   inset: 0;
   z-index: 10;
   display: flex;
-  align-items: center;
-  justify-content: center;
   padding: max(16px, env(safe-area-inset-top)) 0 max(16px, env(safe-area-inset-bottom));
   background:
     radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--grade) 38%, transparent), transparent 62%),
     var(--night-deep);
-  overflow: hidden;
+  /* If a scene is ever taller than the screen it scrolls instead of hiding its button. */
+  overflow: hidden auto;
 }
 
 .stage__scene {
+  /* Centred when it fits, top-aligned and scrollable when it does not. */
+  margin: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -26,7 +27,8 @@
 
 /* Slow gold rays behind a Roblox drop. */
 .stage__scene > .stage__rays {
-  position: absolute;
+  /* Fixed, so the oversized disc never makes the stage scrollable. */
+  position: fixed;
   left: 50%;
   top: 50%;
   width: 160vmax;
@@ -76,6 +78,33 @@
   margin: 0;
   color: var(--ice);
   font-size: 18px;
+}
+
+/* A phone held sideways: the reveal lies flat so the collect button stays on screen. */
+@media (orientation: landscape) and (max-height: 480px) {
+  .stage__scene {
+    gap: 10px;
+  }
+
+  .stage__title {
+    font-size: 20px;
+  }
+
+  .stage .drop-card--reveal {
+    flex-direction: row;
+    width: min(84vw, 480px);
+    min-height: 0;
+    padding: 12px 22px;
+    text-align: left;
+  }
+
+  .stage .drop-card--reveal .drop-card__icon {
+    font-size: 56px;
+  }
+
+  .stage .case-box {
+    zoom: 0.8;
+  }
 }
 
 /* The reel: a window onto a long strip of cards, with a marker in the middle. */

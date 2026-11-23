@@ -13,6 +13,8 @@ function App() {
   const now = useNow(currentTime)
   const { opened, markOpened, resetOpened } = useOpened()
   const [screen, setScreen] = useState<'calendar' | 'gifts'>('calendar')
+  // A tapped door first swings open (swingingDay), then its case is shown (openingDay).
+  const [swingingDay, setSwingingDay] = useState<number | null>(null)
   const [openingDay, setOpeningDay] = useState<number | null>(null)
 
   // A hand-edit mistake in deal.json is shown here, in development, before it can be deployed.
@@ -38,6 +40,8 @@ function App() {
           deal={deal}
           now={now}
           opened={opened}
+          swingingDay={swingingDay}
+          onSwingDoor={setSwingingDay}
           onOpenDoor={setOpeningDay}
           onShowGifts={() => setScreen('gifts')}
           onReset={import.meta.env.DEV ? resetOpened : undefined}
@@ -50,7 +54,10 @@ function App() {
           key={openingDoor.day}
           door={openingDoor}
           onOpened={markOpened}
-          onClose={() => setOpeningDay(null)}
+          onClose={() => {
+            setOpeningDay(null)
+            setSwingingDay(null)
+          }}
         />
       )}
     </>

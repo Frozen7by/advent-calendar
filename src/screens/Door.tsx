@@ -11,23 +11,26 @@ const OPEN_ANGLE = -78
 interface DoorProps {
   door: DealDoor
   state: DoorState
-  /** Called for an opened door at once, and for an available door after it has swung open. */
+  /** True while this door is swinging open on the way to its case. Owned by the app, one door at a time. */
+  swinging: boolean
+  /** Called when an available or opened door is tapped. A locked door only shakes. */
   onTap: () => void
+  /** Called when an available door has finished swinging open. */
+  onSwung: () => void
 }
 
-export function Door({ door, state, onTap }: DoorProps) {
+export function Door({ door, state, swinging, onTap, onSwung }: DoorProps) {
   const [shaking, setShaking] = useState(false)
-  const [swinging, setSwinging] = useState(false)
   const reduceMotion = useReducedMotion()
 
   const tap = () => {
-    if (state === 'locked') setShaking(true)
-    else if (state === 'opened') onTap()
-    else if (!swinging) {
-      // iOS only lets sound start inside a tap, so wake the audio before the case appears.
-      unlockAudio()
-      setSwinging(true)
+    if (state === 'locked') {
+      setShaking(true)
+      return
     }
+    // iOS only lets sound start inside a tap, so wake the audio before the case appears.
+    if (state === 'available') unlockAudio()
+    onTap()
   }
 
   return (
@@ -56,7 +59,7 @@ export function Door({ door, state, onTap }: DoorProps) {
         animate={{ rotateY: state === 'opened' || swinging ? OPEN_ANGLE : 0 }}
         transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.3, 0, 0.2, 1] }}
         onAnimationComplete={() => {
-          if (swinging && state === 'available') onTap()
+          if (swinging && state === 'available') onSwung()
         }}
       >
         {door.day}

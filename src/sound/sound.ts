@@ -17,7 +17,8 @@ export function unlockAudio(): void {
       if (typeof AudioContext === 'undefined') return
       context = new AudioContext()
     }
-    if (context.state === 'suspended') void context.resume().catch(() => {})
+    // Not just 'suspended': iOS Safari leaves the context 'interrupted' after the app was in the background.
+    if (context.state !== 'running') void context.resume().catch(() => {})
   } catch {
     context = null
   }

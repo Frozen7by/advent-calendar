@@ -37,3 +37,11 @@ npm run deal -- --show  # print the current month and its Roblox total
 
 The file can be edited by hand, for example to move a Roblox drop to another
 day. Run `npm run deal -- --show` afterwards to check it is still valid.
+
+Once December has started:
+
+- Never run `npm run deal` again, and only edit doors that are not opened yet.
+  Opened doors and «Мои подарки» read this file, so their drops would change.
+- After deploying a changed deal, open the app on each device while online,
+  wait a few seconds, then close it fully and open it again. The first launch
+  after a deploy still runs the previous version while the new one downloads.

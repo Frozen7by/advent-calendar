@@ -10,13 +10,27 @@ interface CalendarScreenProps {
   deal: Deal
   now: Date
   opened: ReadonlySet<number>
+  /** The door currently swinging open or showing its case, if any. */
+  swingingDay: number | null
+  /** An available door was tapped and may start swinging open. */
+  onSwingDoor: (day: number) => void
+  /** The door has swung open: show its case. */
   onOpenDoor: (day: number) => void
   onShowGifts: () => void
   /** Development only: forget which doors were opened. */
   onReset?: () => void
 }
 
-export function CalendarScreen({ deal, now, opened, onOpenDoor, onShowGifts, onReset }: CalendarScreenProps) {
+export function CalendarScreen({
+  deal,
+  now,
+  opened,
+  swingingDay,
+  onSwingDoor,
+  onOpenDoor,
+  onShowGifts,
+  onReset,
+}: CalendarScreenProps) {
   const { t } = useTranslation()
   const [detail, setDetail] = useState<DealDoor | null>(null)
 
@@ -33,7 +47,13 @@ export function CalendarScreen({ deal, now, opened, onOpenDoor, onShowGifts, onR
               key={door.day}
               door={door}
               state={state}
-              onTap={() => (state === 'opened' ? setDetail(door) : onOpenDoor(door.day))}
+              swinging={swingingDay === door.day}
+              onTap={() => {
+                if (state === 'opened') setDetail(door)
+                // One door at a time: taps on other doors wait until this one's case is done.
+                else if (swingingDay === null) onSwingDoor(door.day)
+              }}
+              onSwung={() => onOpenDoor(door.day)}
             />
           )
         })}
