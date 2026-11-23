@@ -4,7 +4,7 @@
     "cases": [
       {
         "grade": "uncommon",
-        "drop": "homework"
+        "drop": "cook"
       }
     ]
   },
@@ -13,11 +13,7 @@
     "cases": [
       {
         "grade": "common",
-        "drop": "laundry"
-      },
-      {
-        "grade": "common",
-        "drop": "brushTeeth"
+        "drop": "packBag"
       }
     ]
   },
@@ -26,7 +22,7 @@
     "cases": [
       {
         "grade": "common",
-        "drop": "cleanRoom"
+        "drop": "makeBed"
       }
     ]
   },
@@ -34,13 +30,22 @@
     "day": 4,
     "cases": [
       {
-        "grade": "rare",
-        "drop": "makeBed"
+        "grade": "common",
+        "drop": "trash"
       }
     ]
   },
   {
     "day": 5,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "cook"
+      }
+    ]
+  },
+  {
+    "day": 6,
     "cases": [
       {
         "grade": "uncommon",
@@ -49,7 +54,25 @@
     ]
   },
   {
-    "day": 6,
+    "day": 7,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "trash"
+      }
+    ]
+  },
+  {
+    "day": 8,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "waterPlants"
+      }
+    ]
+  },
+  {
+    "day": 9,
     "cases": [
       {
         "grade": "rare",
@@ -58,38 +81,11 @@
     ]
   },
   {
-    "day": 7,
-    "cases": [
-      {
-        "grade": "uncommon",
-        "drop": "makeBed"
-      }
-    ]
-  },
-  {
-    "day": 8,
-    "cases": [
-      {
-        "grade": "rare",
-        "drop": "packBag"
-      }
-    ]
-  },
-  {
-    "day": 9,
-    "cases": [
-      {
-        "grade": "common",
-        "drop": "waterPlants"
-      }
-    ]
-  },
-  {
     "day": 10,
     "cases": [
       {
-        "grade": "rare",
-        "drop": "laundry"
+        "grade": "uncommon",
+        "drop": "waterPlants"
       }
     ]
   },
@@ -97,8 +93,8 @@
     "day": 11,
     "cases": [
       {
-        "grade": "uncommon",
-        "drop": "homework"
+        "grade": "rare",
+        "drop": "brushTeeth"
       }
     ]
   },
@@ -106,76 +102,17 @@
     "day": 12,
     "cases": [
       {
-        "grade": "uncommon",
-        "drop": "trash"
+        "grade": "common",
+        "drop": "laundry"
+      },
+      {
+        "grade": "rare",
+        "drop": "roblox2"
       }
     ]
   },
   {
     "day": 13,
-    "cases": [
-      {
-        "grade": "uncommon",
-        "drop": "cleanRoom"
-      }
-    ]
-  },
-  {
-    "day": 14,
-    "cases": [
-      {
-        "grade": "common",
-        "drop": "brushTeeth"
-      }
-    ]
-  },
-  {
-    "day": 15,
-    "cases": [
-      {
-        "grade": "common",
-        "drop": "makeBed"
-      }
-    ]
-  },
-  {
-    "day": 16,
-    "cases": [
-      {
-        "grade": "common",
-        "drop": "brushTeeth"
-      }
-    ]
-  },
-  {
-    "day": 17,
-    "cases": [
-      {
-        "grade": "uncommon",
-        "drop": "waterPlants"
-      }
-    ]
-  },
-  {
-    "day": 18,
-    "cases": [
-      {
-        "grade": "common",
-        "drop": "laundry"
-      }
-    ]
-  },
-  {
-    "day": 19,
-    "cases": [
-      {
-        "grade": "common",
-        "drop": "waterPlants"
-      }
-    ]
-  },
-  {
-    "day": 20,
     "cases": [
       {
         "grade": "common",
@@ -188,16 +125,70 @@
     ]
   },
   {
-    "day": 21,
+    "day": 14,
     "cases": [
       {
         "grade": "common",
+        "drop": "dishes"
+      }
+    ]
+  },
+  {
+    "day": 15,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "homework"
+      }
+    ]
+  },
+  {
+    "day": 16,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "packBag"
+      }
+    ]
+  },
+  {
+    "day": 17,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "laundry"
+      }
+    ]
+  },
+  {
+    "day": 18,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "brushTeeth"
+      }
+    ]
+  },
+  {
+    "day": 19,
+    "cases": [
+      {
+        "grade": "rare",
+        "drop": "roblox2"
+      }
+    ]
+  },
+  {
+    "day": 20,
+    "cases": [
+      {
+        "grade": "rare",
         "drop": "cook"
       }
     ]
   },
   {
-    "day": 22,
+    "day": 21,
     "cases": [
       {
         "grade": "common",
@@ -206,11 +197,20 @@
     ]
   },
   {
+    "day": 22,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "makeBed"
+      }
+    ]
+  },
+  {
     "day": 23,
     "cases": [
       {
-        "grade": "common",
-        "drop": "dishes"
+        "grade": "uncommon",
+        "drop": "laundry"
       }
     ]
   },
