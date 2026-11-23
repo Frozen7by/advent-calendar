@@ -22,6 +22,7 @@ export function CalendarScreen({ deal, now, opened, onOpenDoor, onShowGifts, onR
 
   return (
     <main className="calendar">
+      <div className="snow" aria-hidden="true" />
       <h1 className="calendar__title">{t('app.title')}</h1>
 
       <div className="calendar__grid">

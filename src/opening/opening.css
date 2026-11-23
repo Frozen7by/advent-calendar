@@ -20,6 +20,38 @@
   gap: 20px;
 }
 
+.stage__scene > * {
+  position: relative;
+}
+
+/* Slow gold rays behind a Roblox drop. */
+.stage__scene > .stage__rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160vmax;
+  height: 160vmax;
+  margin: -80vmax 0 0 -80vmax;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgba(255, 209, 102, 0.22) 0 9deg, transparent 9deg 18deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0, transparent 60%);
+  mask-image: radial-gradient(circle, #000 0, transparent 60%);
+  animation: rays-turn 24s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rays-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage__scene > .stage__rays {
+    animation: none;
+  }
+}
+
 .stage__title {
   margin: 0;
   font-family: var(--display);

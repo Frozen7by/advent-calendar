@@ -10,6 +10,9 @@ vi.mock('./Reel.tsx', () => ({
   Reel: ({ onStop }: { onStop: () => void }) => <button data-testid="reel-stop" onClick={onStop} />,
 }))
 
+// Confetti draws on a canvas, which jsdom does not implement.
+vi.mock('./celebrate.ts', () => ({ celebrate: () => {} }))
+
 afterEach(cleanup)
 
 const door: DealDoor = {

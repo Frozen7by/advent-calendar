@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DropCard } from '../components/DropCard.tsx'
@@ -5,6 +6,7 @@ import { ROBLOX } from '../deal/drops.ts'
 import type { DealDoor } from '../deal/types.ts'
 import { playFanfare, playTick, unlockAudio } from '../sound/sound.ts'
 import { CaseBox } from './CaseBox.tsx'
+import { celebrate } from './celebrate.ts'
 import { flowReducer, initialFlow } from './flow.ts'
 import { Reel } from './Reel.tsx'
 import './opening.css'
@@ -23,6 +25,7 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
   const [flow, setFlow] = useState(initialFlow)
   const current = door.cases[flow.caseIndex]
   const caseTitle = t('stage.caseTitle', { grade: t(`rarity.${current.grade}`) })
+  const isGold = current.drop === ROBLOX
 
   const tapCase = () => {
     if (flow.phase !== 'case') return
@@ -35,7 +38,8 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
 
   const reelStopped = () => {
     setFlow((state) => flowReducer(state, 'reelStopped', door.cases.length))
-    playFanfare(current.drop === ROBLOX)
+    playFanfare(isGold)
+    if (isGold) celebrate()
   }
 
   const collect = () => {
@@ -53,7 +57,15 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
         <div className="stage__scene">
           {flow.caseIndex > 0 && <p className="stage__bonus">{t('stage.bonus')}</p>}
           <h2 className="stage__title">{caseTitle}</h2>
-          <CaseBox grade={current.grade} label={caseTitle} onTap={tapCase} />
+          {/* The case drops in with a bounce; the key replays it for the bonus case. */}
+          <motion.div
+            key={flow.caseIndex}
+            initial={{ y: -320, scale: 0.8, opacity: 0 }}
+            animate={{ y: 0, scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', bounce: 0.5, duration: 0.8 }}
+          >
+            <CaseBox grade={current.grade} label={caseTitle} onTap={tapCase} />
+          </motion.div>
           <p className="stage__hint">{t('stage.tapToOpen')}</p>
         </div>
       )}
@@ -65,8 +77,15 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
       )}
       {flow.phase === 'revealed' && (
         <div className="stage__scene">
+          {isGold && <div className="stage__rays" aria-hidden="true" />}
           <h2 className="stage__title">{caseTitle}</h2>
-          <DropCard drop={current.drop} variant="reveal" />
+          <motion.div
+            initial={{ scale: 0.3, rotate: -10, opacity: 0 }}
+            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            transition={{ type: 'spring', bounce: 0.45, duration: 0.7 }}
+          >
+            <DropCard drop={current.drop} variant="reveal" />
+          </motion.div>
           <button type="button" className="chunky-button" data-testid="collect" onClick={collect}>
             {t('stage.collect')}
           </button>
