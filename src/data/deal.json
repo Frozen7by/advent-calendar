@@ -1,0 +1,226 @@
+[
+  {
+    "day": 1,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "dishes"
+      }
+    ]
+  },
+  {
+    "day": 2,
+    "cases": [
+      {
+        "grade": "rare",
+        "drop": "roblox"
+      }
+    ]
+  },
+  {
+    "day": 3,
+    "cases": [
+      {
+        "grade": "rare",
+        "drop": "roblox"
+      }
+    ]
+  },
+  {
+    "day": 4,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "packBag"
+      }
+    ]
+  },
+  {
+    "day": 5,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "read"
+      }
+    ]
+  },
+  {
+    "day": 6,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "packBag"
+      }
+    ]
+  },
+  {
+    "day": 7,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "brushTeeth"
+      }
+    ]
+  },
+  {
+    "day": 8,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "laundry"
+      }
+    ]
+  },
+  {
+    "day": 9,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "setTable"
+      },
+      {
+        "grade": "common",
+        "drop": "read"
+      }
+    ]
+  },
+  {
+    "day": 10,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "dishes"
+      }
+    ]
+  },
+  {
+    "day": 11,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "read"
+      }
+    ]
+  },
+  {
+    "day": 12,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "laundry"
+      }
+    ]
+  },
+  {
+    "day": 13,
+    "cases": [
+      {
+        "grade": "rare",
+        "drop": "toys"
+      }
+    ]
+  },
+  {
+    "day": 14,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "waterPlants"
+      }
+    ]
+  },
+  {
+    "day": 15,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "toys"
+      }
+    ]
+  },
+  {
+    "day": 16,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "brushTeeth"
+      }
+    ]
+  },
+  {
+    "day": 17,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "setTable"
+      }
+    ]
+  },
+  {
+    "day": 18,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "toys"
+      }
+    ]
+  },
+  {
+    "day": 19,
+    "cases": [
+      {
+        "grade": "rare",
+        "drop": "setTable"
+      }
+    ]
+  },
+  {
+    "day": 20,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "read"
+      }
+    ]
+  },
+  {
+    "day": 21,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "trash"
+      },
+      {
+        "grade": "common",
+        "drop": "makeBed"
+      }
+    ]
+  },
+  {
+    "day": 22,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "roblox"
+      }
+    ]
+  },
+  {
+    "day": 23,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "laundry"
+      }
+    ]
+  },
+  {
+    "day": 24,
+    "cases": [
+      {
+        "grade": "epic",
+        "drop": "roblox"
+      }
+    ]
+  }
+]

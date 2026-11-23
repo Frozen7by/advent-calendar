@@ -17,4 +17,17 @@ npm run dev      # dev server
 npm run build    # type-check and build to dist/
 npm run preview  # serve the production build (use this to test the PWA)
 npm run lint     # oxlint
+npm test         # unit tests (Vitest)
 ```
+
+## The deal
+
+Every door's case grade and drop is fixed in advance in `src/data/deal.json`.
+
+```sh
+npm run deal            # deal a new month, overwrite the file, print it
+npm run deal -- --show  # print the current month and its Roblox total
+```
+
+The file can be edited by hand, for example to move a Roblox drop to another
+day. Run `npm run deal -- --show` afterwards to check it is still valid.

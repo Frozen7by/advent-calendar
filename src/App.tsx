@@ -13,7 +13,6 @@ function App() {
       >
         {t('app.title')}
       </motion.h1>
-      <p>{t('app.comingSoon')}</p>
     </main>
   )
 }
