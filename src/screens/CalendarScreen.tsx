@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { MONTH_KEY, doorState } from '../calendar/logic.ts'
 import type { CalendarDoor } from '../calendar/logic.ts'
-import { DROP_ICONS, isRoblox } from '../deal/drops.ts'
+import { DROP_ICONS, isPrize } from '../deal/drops.ts'
 import { Door } from './Door.tsx'
 import './calendar.css'
 
@@ -76,7 +76,7 @@ export function CalendarScreen({
           <div className="detail__sheet">
             <p className="detail__date">{t(`date.${MONTH_KEY[detail.month]}`, { day: detail.day })}</p>
             {detail.cases.map((c, i) => (
-              <div key={i} className="detail__gift" data-grade={c.grade} data-gold={isRoblox(c.drop) ? '' : undefined}>
+              <div key={i} className="detail__gift" data-grade={c.grade} data-gold={isPrize(c.drop) ? '' : undefined}>
                 <span className="detail__icon" aria-hidden="true">
                   {DROP_ICONS[c.drop]}
                 </span>

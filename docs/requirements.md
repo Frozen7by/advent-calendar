@@ -56,6 +56,11 @@ These override the design document where they differ.
 - The reel spins for 10 seconds.
 - «Написать диктант» is added to the chores. It was placed by hand on the
   28 November door; nothing was re-dealt.
+- A prize need not be Roblox: «Бутерброд без ничего» is a joke prize the
+  parent placed by hand, as a bonus rare case on the 24 November door (the one
+  exception to "no bonus cases in November"). Such prizes look and sound like
+  a Roblox drop, are never dealt at random and are not counted in the Roblox
+  total.
 - The app says outright that every chore is done by the child who uses the
   calendar, and that the prizes go to the same child: a line under each
   revealed drop and a rule at the top of «Мои подарки».

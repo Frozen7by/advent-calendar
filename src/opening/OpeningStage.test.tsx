@@ -58,6 +58,21 @@ it('says the chore is the child’s own to do, and the prize the child’s own t
   expect(screen.queryByText('Это задание выполняешь ты')).toBeNull()
 })
 
+it('treats a prize that is not Roblox as the child’s prize, not a chore', () => {
+  const sandwichDoor: CalendarDoor = {
+    id: '2026-11-24',
+    month: 11,
+    day: 24,
+    cases: [{ grade: 'rare', drop: 'plainSandwich' }],
+  }
+  render(<OpeningStage door={sandwichDoor} onOpened={() => {}} onClose={() => {}} />)
+  fireEvent.click(screen.getByTestId('case'))
+  fireEvent.click(screen.getByTestId('reel-stop'))
+  expect(screen.getByText('Бутерброд без ничего')).toBeTruthy()
+  expect(screen.getByText('Этот приз получаешь ты')).toBeTruthy()
+  expect(screen.queryByText('Это задание выполняешь ты')).toBeNull()
+})
+
 it('runs the bonus case without recording again, then closes', () => {
   const onOpened = vi.fn()
   const onClose = vi.fn()

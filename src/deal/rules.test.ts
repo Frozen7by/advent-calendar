@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isRoblox } from './drops.ts'
+import { isPrize, isRoblox } from './drops.ts'
 import {
   NOVEMBER_DAYS,
   ROBLOX_BY_GRADE,
@@ -11,7 +11,7 @@ import {
   robloxDollars,
   validateDeal,
 } from './rules.ts'
-import type { Grade } from './types.ts'
+import type { Deal, Grade } from './types.ts'
 
 const deals = Array.from({ length: 300 }, (_, i) => generateDeal(mulberry32(i + 1)))
 
@@ -119,6 +119,30 @@ describe('generateNovember', () => {
         if (i > 0 && !isRoblox(door.cases[0].drop)) expect(door.cases[0].drop).not.toBe(n[i - 1].cases[0].drop)
       })
     }
+  })
+})
+
+describe('hand-placed prizes', () => {
+  const sandwich: Deal = [{ day: 1, cases: [{ grade: 'rare', drop: 'plainSandwich' }] }]
+
+  it('are prizes, but not Roblox: they cost the parent no donation', () => {
+    expect(isPrize('plainSandwich')).toBe(true)
+    expect(isPrize('roblox5')).toBe(true)
+    expect(isPrize('trash')).toBe(false)
+    expect(robloxCount(sandwich)).toBe(0)
+    expect(robloxDollars(sandwich)).toBe(0)
+  })
+
+  it('are accepted in a deal file', () => {
+    const edited = structuredClone(deals[0])
+    edited[4].cases[0].drop = 'plainSandwich'
+    expect(validateDeal(edited)).toEqual([])
+  })
+
+  it('are never dealt at random', () => {
+    const dealt = [...deals, ...Array.from({ length: 300 }, (_, i) => generateNovember(mulberry32(i + 1)))]
+    const drops = new Set(dealt.flatMap((d) => d.flatMap((x) => x.cases.map((c) => c.drop))))
+    expect(drops.has('plainSandwich')).toBe(false)
   })
 })
 

@@ -44,7 +44,8 @@ grade is drawn at random (12 : 7 : 4 : 1), so there are no bonus cases and no
 guaranteed epic.
 
 The files can be edited by hand, for example to move a Roblox drop to another
-day. Run `npm run deal -- --show` afterwards to check they are still valid.
+day, to give a door a second (bonus) case, or to place a prize that is never
+dealt at random (`TREAT_IDS` in `src/deal/drops.ts`, e.g. `plainSandwich`). Run `npm run deal -- --show` afterwards to check they are still valid.
 
 Once a month's first door is open (23 November for `november.json`,
 1 December for `deal.json`):

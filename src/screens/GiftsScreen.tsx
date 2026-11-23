@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { MONTH_KEY } from '../calendar/logic.ts'
 import type { Gift } from '../calendar/logic.ts'
-import { DROP_ICONS, isRoblox } from '../deal/drops.ts'
+import { DROP_ICONS, isPrize } from '../deal/drops.ts'
 import './gifts.css'
 
 interface GiftsScreenProps {
@@ -32,7 +32,7 @@ export function GiftsScreen({ gifts, onBack }: GiftsScreenProps) {
               key={`${gift.doorId}-${gift.bonus ? 'bonus' : 'main'}`}
               className="gift"
               data-grade={gift.grade}
-              data-gold={isRoblox(gift.drop) ? '' : undefined}
+              data-gold={isPrize(gift.drop) ? '' : undefined}
             >
               <span className="gift__icon" aria-hidden="true">
                 {DROP_ICONS[gift.drop]}
