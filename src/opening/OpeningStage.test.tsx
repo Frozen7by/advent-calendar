@@ -5,6 +5,11 @@ import '../i18n/index.ts'
 import type { DealDoor } from '../deal/types.ts'
 import { OpeningStage } from './OpeningStage.tsx'
 
+// The real reel takes five seconds of animation; the test decides when it stops.
+vi.mock('./Reel.tsx', () => ({
+  Reel: ({ onStop }: { onStop: () => void }) => <button data-testid="reel-stop" onClick={onStop} />,
+}))
+
 afterEach(cleanup)
 
 const door: DealDoor = {
@@ -15,12 +20,23 @@ const door: DealDoor = {
   ],
 }
 
-it('records the door as opened on the first case tap, before the reveal', () => {
+it('records the door as opened on the first case tap, before the reel stops', () => {
   const onOpened = vi.fn()
   render(<OpeningStage door={door} onOpened={onOpened} onClose={() => {}} />)
   expect(onOpened).not.toHaveBeenCalled()
   fireEvent.click(screen.getByTestId('case'))
   expect(onOpened).toHaveBeenCalledExactlyOnceWith(7)
+  expect(screen.getByTestId('reel-stop')).toBeTruthy()
+  expect(screen.queryByTestId('collect')).toBeNull()
+})
+
+it('records only once when the case is tapped twice', () => {
+  const onOpened = vi.fn()
+  render(<OpeningStage door={door} onOpened={onOpened} onClose={() => {}} />)
+  const box = screen.getByTestId('case')
+  fireEvent.click(box)
+  fireEvent.click(box)
+  expect(onOpened).toHaveBeenCalledTimes(1)
 })
 
 it('runs the bonus case without recording again, then closes', () => {
@@ -28,9 +44,11 @@ it('runs the bonus case without recording again, then closes', () => {
   const onClose = vi.fn()
   render(<OpeningStage door={door} onOpened={onOpened} onClose={onClose} />)
   fireEvent.click(screen.getByTestId('case'))
+  fireEvent.click(screen.getByTestId('reel-stop'))
   fireEvent.click(screen.getByTestId('collect'))
   expect(screen.getByText('Бонусный кейс!')).toBeTruthy()
   fireEvent.click(screen.getByTestId('case'))
+  fireEvent.click(screen.getByTestId('reel-stop'))
   fireEvent.click(screen.getByTestId('collect'))
   expect(onOpened).toHaveBeenCalledTimes(1)
   expect(onClose).toHaveBeenCalledTimes(1)

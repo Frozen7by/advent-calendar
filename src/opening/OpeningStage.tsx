@@ -4,6 +4,7 @@ import { DropCard } from '../components/DropCard.tsx'
 import type { DealDoor } from '../deal/types.ts'
 import { CaseBox } from './CaseBox.tsx'
 import { flowReducer, initialFlow } from './flow.ts'
+import { Reel } from './Reel.tsx'
 import './opening.css'
 
 interface OpeningStageProps {
@@ -26,9 +27,10 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
     // Record first: if the app is closed from here on, the door stays opened
     // and the animation is never offered again.
     if (flow.caseIndex === 0) onOpened(door.day)
-    const spinning = flowReducer(flow, 'tapCase', door.cases.length)
-    setFlow(flowReducer(spinning, 'reelStopped', door.cases.length))
+    setFlow(flowReducer(flow, 'tapCase', door.cases.length))
   }
+
+  const reelStopped = () => setFlow((state) => flowReducer(state, 'reelStopped', door.cases.length))
 
   const collect = () => {
     const next = flowReducer(flow, 'collect', door.cases.length)
@@ -47,6 +49,12 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
           <h2 className="stage__title">{caseTitle}</h2>
           <CaseBox grade={current.grade} label={caseTitle} onTap={tapCase} />
           <p className="stage__hint">{t('stage.tapToOpen')}</p>
+        </div>
+      )}
+      {flow.phase === 'spinning' && (
+        <div className="stage__scene">
+          <h2 className="stage__title">{caseTitle}</h2>
+          <Reel key={flow.caseIndex} win={current.drop} onStop={reelStopped} />
         </div>
       )}
       {flow.phase === 'revealed' && (
