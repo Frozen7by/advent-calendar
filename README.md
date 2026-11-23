@@ -20,6 +20,12 @@ npm run lint     # oxlint
 npm test         # unit tests (Vitest)
 ```
 
+## Deployment
+
+Every push to `main` runs `.github/workflows/deploy.yml`: tests, build, publish
+to GitHub Pages. The build uses relative paths, so it works from the
+`/<repository>/` sub-path Pages serves it from.
+
 ## The deal
 
 Every door's case grade and drop is fixed in advance in `src/data/deal.json`.
