@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { generateDeal, mulberry32, robloxCount, validateDeal } from './rules.ts'
+import { isRoblox } from './drops.ts'
+import { generateDeal, mulberry32, robloxCount, robloxDollars, validateDeal } from './rules.ts'
 import type { Grade } from './types.ts'
 
 const deals = Array.from({ length: 300 }, (_, i) => generateDeal(mulberry32(i + 1)))
@@ -31,7 +32,7 @@ describe('generateDeal', () => {
   it('never repeats a chore from the previous door or within a door', () => {
     for (const d of deals) {
       d.forEach((door, i) => {
-        const chores = door.cases.map((c) => c.drop).filter((x) => x !== 'roblox')
+        const chores = door.cases.map((c) => c.drop).filter((x) => !isRoblox(x))
         expect(new Set(chores).size).toBe(chores.length)
         const prev = i > 0 ? d[i - 1].cases.map((c) => c.drop) : []
         for (const c of chores) expect(prev).not.toContain(c)
@@ -49,7 +50,7 @@ describe('generateDeal', () => {
     const mean = many.reduce((s, d) => s + robloxCount(d), 0) / many.length
     expect(mean).toBeGreaterThan(2.8)
     expect(mean).toBeLessThan(3.2)
-    const epicHit = many.filter((d) => d[23].cases[0].drop === 'roblox').length / many.length
+    const epicHit = many.filter((d) => isRoblox(d[23].cases[0].drop)).length / many.length
     expect(epicHit).toBeGreaterThan(0.93)
     expect(epicHit).toBeLessThan(0.97)
     const bonus = many.flatMap((d) => d.filter((x) => x.cases.length === 2).map((x) => x.cases[1].grade))
@@ -59,11 +60,26 @@ describe('generateDeal', () => {
   })
 })
 
+it('deals Roblox amounts of $2, $5, $10 and $20, smaller ones more often', () => {
+  const many = Array.from({ length: 3000 }, (_, i) => generateDeal(mulberry32(5000 + i)))
+  const drops = many.flatMap((d) => d.flatMap((x) => x.cases.map((c) => c.drop))).filter(isRoblox)
+  const share = (id: string) => drops.filter((d) => d === id).length / drops.length
+  expect(share('roblox2')).toBeGreaterThan(0.46)
+  expect(share('roblox2')).toBeLessThan(0.54)
+  expect(share('roblox5')).toBeGreaterThan(0.27)
+  expect(share('roblox5')).toBeLessThan(0.33)
+  expect(share('roblox10')).toBeGreaterThan(0.12)
+  expect(share('roblox10')).toBeLessThan(0.18)
+  expect(share('roblox20')).toBeGreaterThan(0.035)
+  expect(share('roblox20')).toBeLessThan(0.065)
+  expect(robloxDollars([{ day: 1, cases: [{ grade: 'rare', drop: 'roblox5' }, { grade: 'epic', drop: 'roblox20' }] }])).toBe(25)
+})
+
 describe('validateDeal', () => {
   it('accepts generated deals and valid hand edits', () => {
     for (const d of deals) expect(validateDeal(d)).toEqual([])
     const edited = structuredClone(deals[0])
-    edited[4].cases[0].drop = 'roblox'
+    edited[4].cases[0].drop = 'roblox20'
     expect(validateDeal(edited)).toEqual([])
   })
 

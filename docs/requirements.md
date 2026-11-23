@@ -41,3 +41,14 @@ The door count, grades, drop chances, the reel-style case opening and the
 ## Hosting
 
 - GitHub Pages, from a public repository.
+
+## Changes after the first build (2026-11-23)
+
+These override the design document where they differ.
+
+- The Roblox drop has four amounts: $2, $5, $10 and $20. When a case drops
+  Roblox the amount is picked with chances 50% / 30% / 15% / 5% (a designer
+  call, not the customer's numbers).
+- The reading chore is removed (homework was already in the list), and
+  «Накрыть на стол» became «Приготовить покушать».
+- The reel spins for 10 seconds.

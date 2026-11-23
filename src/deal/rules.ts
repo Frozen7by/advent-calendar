@@ -1,4 +1,4 @@
-import { CHORE_IDS, DROP_IDS, ROBLOX } from './drops.ts'
+import { CHORE_IDS, DROP_IDS, ROBLOX_DOLLARS, isRoblox, pickRoblox } from './drops.ts'
 import type { ChoreId, DropId } from './drops.ts'
 import { GRADES } from './types.ts'
 import type { Deal, DealCase, Grade } from './types.ts'
@@ -61,7 +61,7 @@ export function generateDeal(rng: Rng): Deal {
 
     const chores: ChoreId[] = []
     const cases: DealCase[] = grades.map((grade) => {
-      if (rng() < ROBLOX_CHANCE[grade]) return { grade, drop: ROBLOX }
+      if (rng() < ROBLOX_CHANCE[grade]) return { grade, drop: pickRoblox(rng()) }
       const allowed = CHORE_IDS.filter((c) => !previousChores.includes(c) && !chores.includes(c))
       const chore = allowed[Math.floor(rng() * allowed.length)]
       chores.push(chore)
@@ -112,5 +112,13 @@ export function validateDeal(value: unknown): string[] {
 }
 
 export function robloxCount(deal: Deal): number {
-  return deal.reduce((sum, door) => sum + door.cases.filter((c) => c.drop === ROBLOX).length, 0)
+  return deal.reduce((sum, door) => sum + door.cases.filter((c) => isRoblox(c.drop)).length, 0)
+}
+
+/** What the month's Roblox drops cost the parent, in dollars. */
+export function robloxDollars(deal: Deal): number {
+  return deal
+    .flatMap((door) => door.cases.map((c) => c.drop))
+    .filter(isRoblox)
+    .reduce((sum, drop) => sum + ROBLOX_DOLLARS[drop], 0)
 }

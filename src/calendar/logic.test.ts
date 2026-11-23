@@ -31,15 +31,15 @@ it('lists gifts of opened doors in order, bonus flagged', () => {
       day: 2,
       cases: [
         { grade: 'common', drop: 'toys' },
-        { grade: 'rare', drop: 'roblox' },
+        { grade: 'rare', drop: 'roblox5' },
       ],
     },
-    { day: 3, cases: [{ grade: 'rare', drop: 'read' }] },
+    { day: 3, cases: [{ grade: 'rare', drop: 'homework' }] },
   ]
   expect(giftList(deal, new Set([2, 1]))).toEqual([
     { day: 1, grade: 'common', drop: 'trash', bonus: false },
     { day: 2, grade: 'common', drop: 'toys', bonus: false },
-    { day: 2, grade: 'rare', drop: 'roblox', bonus: true },
+    { day: 2, grade: 'rare', drop: 'roblox5', bonus: true },
   ])
 })
 

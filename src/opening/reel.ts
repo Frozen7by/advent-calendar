@@ -1,4 +1,4 @@
-import { CHORE_IDS, ROBLOX } from '../deal/drops.ts'
+import { CHORE_IDS, pickRoblox } from '../deal/drops.ts'
 import type { DropId } from '../deal/drops.ts'
 import type { Rng } from '../deal/rules.ts'
 
@@ -7,13 +7,14 @@ export const CARD_W = 96
 export const CARD_GAP = 8
 
 /** The card the reel lands on, and the strip's length. Cards after the winner keep wide screens filled. */
-export const WIN_INDEX = 34
-export const STRIP_LEN = 48
+export const WIN_INDEX = 62
+export const STRIP_LEN = 76
 
 /** Share of filler cards that are gold, so Roblox flies past even on a chore drop. */
 export const GOLD_SHARE = 0.14
 
-export const SPIN_MS = 5200
+/** Ten seconds of spin; the strip is long enough that the cards still race past for most of it. */
+export const SPIN_MS = 10_000
 export const SPIN_EASE: [number, number, number, number] = [0.08, 0.72, 0.1, 1]
 
 const STEP = CARD_W + CARD_GAP
@@ -33,7 +34,7 @@ export function reelOffset(viewportWidth: number, jitter: number): number {
 export function buildStrip(win: DropId, rng: Rng): DropId[] {
   return Array.from({ length: STRIP_LEN }, (_, i) => {
     if (i === WIN_INDEX) return win
-    if (rng() < GOLD_SHARE) return ROBLOX
+    if (rng() < GOLD_SHARE) return pickRoblox(rng())
     return CHORE_IDS[Math.floor(rng() * CHORE_IDS.length)]
   })
 }

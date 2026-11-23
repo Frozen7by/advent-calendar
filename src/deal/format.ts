@@ -1,5 +1,5 @@
 import type { DropId } from './drops.ts'
-import { robloxCount } from './rules.ts'
+import { robloxCount, robloxDollars } from './rules.ts'
 import type { Deal, Grade } from './types.ts'
 
 export interface DealNames {
@@ -13,5 +13,5 @@ export function formatDeal(deal: Deal, names: DealNames): string {
     const cases = door.cases.map((c) => `${names.grade[c.grade]}: ${names.drop[c.drop]}`)
     return `${String(door.day).padStart(2)}  ${cases.join('  +  ')}`
   })
-  return [...lines, '', `Roblox: ${robloxCount(deal)}`].join('\n')
+  return [...lines, '', `Roblox: ${robloxCount(deal)} ($${robloxDollars(deal)})`].join('\n')
 }

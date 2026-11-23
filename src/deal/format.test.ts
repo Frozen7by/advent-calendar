@@ -17,14 +17,14 @@ it('prints one line per door, bonus cases inline, then the Roblox total', () => 
       day: 12,
       cases: [
         { grade: 'common', drop: 'toys' },
-        { grade: 'rare', drop: 'roblox' },
+        { grade: 'rare', drop: 'roblox5' },
       ],
     },
   ]
   expect(formatDeal(deal, names).split('\n')).toEqual([
     ' 1  Обычный: trash',
-    '12  Обычный: toys  +  Редкий: roblox',
+    '12  Обычный: toys  +  Редкий: roblox5',
     '',
-    'Roblox: 1',
+    'Roblox: 1 ($5)',
   ])
 })

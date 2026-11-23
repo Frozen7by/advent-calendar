@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { DROP_ICONS, ROBLOX } from '../deal/drops.ts'
+import { DROP_ICONS, isRoblox } from '../deal/drops.ts'
 import type { DropId } from '../deal/drops.ts'
 import './drop-card.css'
 
@@ -12,7 +12,7 @@ interface DropCardProps {
 export function DropCard({ drop, variant }: DropCardProps) {
   const { t } = useTranslation()
   return (
-    <div className={`drop-card drop-card--${variant}`} data-gold={drop === ROBLOX ? '' : undefined}>
+    <div className={`drop-card drop-card--${variant}`} data-gold={isRoblox(drop) ? '' : undefined}>
       <span className="drop-card__icon" aria-hidden="true">
         {DROP_ICONS[drop]}
       </span>

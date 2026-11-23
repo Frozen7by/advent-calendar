@@ -2,7 +2,10 @@
   "app": { "title": "Адвент-календарь" },
   "rarity": { "common": "Обычный", "uncommon": "Необычный", "rare": "Редкий", "epic": "Эпический" },
   "drop": {
-    "roblox": "Донат в Roblox",
+    "roblox2": "Донат в Roblox на $2",
+    "roblox5": "Донат в Roblox на $5",
+    "roblox10": "Донат в Roblox на $10",
+    "roblox20": "Донат в Roblox на $20",
     "brushTeeth": "Почистить зубы",
     "cleanRoom": "Убраться в комнате",
     "dishes": "Убрать посуду в посудомойку сразу после еды",
@@ -12,12 +15,14 @@
     "trash": "Вынести мусор",
     "toys": "Убрать игрушки на место",
     "laundry": "Положить грязную одежду в корзину для белья",
-    "setTable": "Накрыть на стол",
-    "waterPlants": "Полить цветы",
-    "read": "Почитать книгу 20 минут"
+    "cook": "Приготовить покушать",
+    "waterPlants": "Полить цветы"
   },
   "dropShort": {
-    "roblox": "Roblox",
+    "roblox2": "Roblox $2",
+    "roblox5": "Roblox $5",
+    "roblox10": "Roblox $10",
+    "roblox20": "Roblox $20",
     "brushTeeth": "Зубы",
     "cleanRoom": "Комната",
     "dishes": "Посуда",
@@ -27,9 +32,8 @@
     "trash": "Мусор",
     "toys": "Игрушки",
     "laundry": "Одежда",
-    "setTable": "Стол",
-    "waterPlants": "Цветы",
-    "read": "Книга"
+    "cook": "Еда",
+    "waterPlants": "Цветы"
   },
   "calendar": { "gifts": "Мои подарки" },
   "stage": {

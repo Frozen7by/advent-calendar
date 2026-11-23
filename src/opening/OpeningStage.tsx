@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DropCard } from '../components/DropCard.tsx'
-import { ROBLOX } from '../deal/drops.ts'
+import { isRoblox } from '../deal/drops.ts'
 import type { DealDoor } from '../deal/types.ts'
 import { playFanfare, playTick, unlockAudio } from '../sound/sound.ts'
 import { CaseBox } from './CaseBox.tsx'
@@ -25,7 +25,7 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
   const [flow, setFlow] = useState(initialFlow)
   const current = door.cases[flow.caseIndex]
   const caseTitle = t('stage.caseTitle', { grade: t(`rarity.${current.grade}`) })
-  const isGold = current.drop === ROBLOX
+  const isGold = isRoblox(current.drop)
 
   const tapCase = () => {
     if (flow.phase !== 'case') return

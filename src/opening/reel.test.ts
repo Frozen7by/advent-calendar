@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest'
 import { mulberry32 } from '../deal/rules.ts'
-import { CARD_GAP, CARD_W, STRIP_LEN, WIN_INDEX, buildStrip, reelOffset } from './reel.ts'
+import { isRoblox } from '../deal/drops.ts'
+import { CARD_GAP, CARD_W, SPIN_MS, STRIP_LEN, WIN_INDEX, buildStrip, reelOffset } from './reel.ts'
 
 const STEP = CARD_W + CARD_GAP
 
@@ -22,10 +23,14 @@ it('builds a strip with the drop on the winning index', () => {
   const strip = buildStrip('trash', mulberry32(1))
   expect(strip).toHaveLength(STRIP_LEN)
   expect(strip[WIN_INDEX]).toBe('trash')
-  expect(buildStrip('roblox', () => 0.5)[WIN_INDEX]).toBe('roblox')
+  expect(buildStrip('roblox20', () => 0.5)[WIN_INDEX]).toBe('roblox20')
 })
 
 it('mixes gold cards into the filler by GOLD_SHARE', () => {
-  expect(buildStrip('trash', () => 0.5).filter((d) => d === 'roblox')).toHaveLength(0)
-  expect(buildStrip('trash', () => 0).filter((d) => d === 'roblox')).toHaveLength(STRIP_LEN - 1)
+  expect(buildStrip('trash', () => 0.5).filter(isRoblox)).toHaveLength(0)
+  expect(buildStrip('trash', () => 0).filter(isRoblox)).toHaveLength(STRIP_LEN - 1)
+})
+
+it('spins for ten seconds', () => {
+  expect(SPIN_MS).toBe(10_000)
 })

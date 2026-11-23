@@ -19,7 +19,7 @@ const door: DealDoor = {
   day: 7,
   cases: [
     { grade: 'common', drop: 'trash' },
-    { grade: 'rare', drop: 'roblox' },
+    { grade: 'rare', drop: 'roblox10' },
   ],
 }
 
