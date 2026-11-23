@@ -62,16 +62,13 @@ describe('generateDeal', () => {
 
 it('deals Roblox amounts of $2, $5, $10 and $20, smaller ones more often', () => {
   const many = Array.from({ length: 3000 }, (_, i) => generateDeal(mulberry32(5000 + i)))
-  const drops = many.flatMap((d) => d.flatMap((x) => x.cases.map((c) => c.drop))).filter(isRoblox)
-  const share = (id: string) => drops.filter((d) => d === id).length / drops.length
-  expect(share('roblox2')).toBeGreaterThan(0.46)
-  expect(share('roblox2')).toBeLessThan(0.54)
-  expect(share('roblox5')).toBeGreaterThan(0.27)
-  expect(share('roblox5')).toBeLessThan(0.33)
-  expect(share('roblox10')).toBeGreaterThan(0.12)
-  expect(share('roblox10')).toBeLessThan(0.18)
-  expect(share('roblox20')).toBeGreaterThan(0.035)
-  expect(share('roblox20')).toBeLessThan(0.065)
+  // The better the case, the bigger the donation it can hold.
+  const cases = many.flatMap((d) => d.flatMap((x) => x.cases)).filter((c) => isRoblox(c.drop))
+  const amounts = (grade: Grade) => [...new Set(cases.filter((c) => c.grade === grade).map((c) => c.drop))].sort()
+  expect(amounts('common')).toEqual(['roblox2'])
+  expect(amounts('uncommon')).toEqual(['roblox2', 'roblox5'])
+  expect(amounts('rare')).toEqual(['roblox10', 'roblox2', 'roblox5'])
+  expect(amounts('epic')).toEqual(['roblox10', 'roblox20'])
   expect(robloxDollars([{ day: 1, cases: [{ grade: 'rare', drop: 'roblox5' }, { grade: 'epic', drop: 'roblox20' }] }])).toBe(25)
 })
 

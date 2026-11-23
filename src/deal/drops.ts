@@ -6,7 +6,6 @@ export const CHORE_IDS = [
   'packBag',
   'homework',
   'trash',
-  'toys',
   'laundry',
   'cook',
   'waterPlants',
@@ -33,13 +32,14 @@ export function isRoblox(drop: string): drop is RobloxId {
 }
 
 /** Picks a Roblox amount by ROBLOX_WEIGHTS from a random number in [0, 1). */
-export function pickRoblox(random: number): RobloxId {
-  let r = random
-  for (const id of ROBLOX_IDS) {
+export function pickRoblox(random: number, allowed: readonly RobloxId[] = ROBLOX_IDS): RobloxId {
+  // Among the allowed amounts the weights keep their proportions.
+  let r = random * allowed.reduce((sum, id) => sum + ROBLOX_WEIGHTS[id], 0)
+  for (const id of allowed) {
     if (r < ROBLOX_WEIGHTS[id]) return id
     r -= ROBLOX_WEIGHTS[id]
   }
-  return 'roblox20'
+  return allowed[allowed.length - 1]
 }
 
 export const DROP_ICONS: Record<DropId, string> = {
@@ -54,7 +54,6 @@ export const DROP_ICONS: Record<DropId, string> = {
   packBag: '🎒',
   homework: '📚',
   trash: '🗑️',
-  toys: '🧸',
   laundry: '🧺',
   cook: '🍳',
   waterPlants: '🪴',

@@ -1,5 +1,5 @@
 import { CHORE_IDS, DROP_IDS, ROBLOX_DOLLARS, isRoblox, pickRoblox } from './drops.ts'
-import type { ChoreId, DropId } from './drops.ts'
+import type { ChoreId, DropId, RobloxId } from './drops.ts'
 import { GRADES } from './types.ts'
 import type { Deal, DealCase, Grade } from './types.ts'
 
@@ -12,6 +12,14 @@ export const BONUS_DOORS = 2
 
 export const GRADE_DOORS: Record<Grade, number> = { common: 12, uncommon: 7, rare: 4, epic: 1 }
 export const ROBLOX_CHANCE: Record<Grade, number> = { common: 0.01, uncommon: 0.1, rare: 0.25, epic: 0.95 }
+
+/** Which Roblox amounts each grade can drop: the better the case, the bigger the donation. */
+export const ROBLOX_BY_GRADE: Record<Grade, readonly RobloxId[]> = {
+  common: ['roblox2'],
+  uncommon: ['roblox2', 'roblox5'],
+  rare: ['roblox2', 'roblox5', 'roblox10'],
+  epic: ['roblox10', 'roblox20'],
+}
 
 /** Small seeded generator, so tests can replay a deal. */
 export function mulberry32(seed: number): Rng {
@@ -61,7 +69,7 @@ export function generateDeal(rng: Rng): Deal {
 
     const chores: ChoreId[] = []
     const cases: DealCase[] = grades.map((grade) => {
-      if (rng() < ROBLOX_CHANCE[grade]) return { grade, drop: pickRoblox(rng()) }
+      if (rng() < ROBLOX_CHANCE[grade]) return { grade, drop: pickRoblox(rng(), ROBLOX_BY_GRADE[grade]) }
       const allowed = CHORE_IDS.filter((c) => !previousChores.includes(c) && !chores.includes(c))
       const chore = allowed[Math.floor(rng() * allowed.length)]
       chores.push(chore)
