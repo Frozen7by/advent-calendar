@@ -44,6 +44,20 @@ it('records only once when the case is tapped twice', () => {
   expect(onOpened).toHaveBeenCalledTimes(1)
 })
 
+it('says the chore is the child’s own to do, and the prize the child’s own to get', () => {
+  render(<OpeningStage door={door} onOpened={() => {}} onClose={() => {}} />)
+  fireEvent.click(screen.getByTestId('case'))
+  expect(screen.queryByText('Это задание выполняешь ты')).toBeNull()
+  fireEvent.click(screen.getByTestId('reel-stop'))
+  expect(screen.getByText('Это задание выполняешь ты')).toBeTruthy()
+  expect(screen.queryByText('Этот приз получаешь ты')).toBeNull()
+  fireEvent.click(screen.getByTestId('collect'))
+  fireEvent.click(screen.getByTestId('case'))
+  fireEvent.click(screen.getByTestId('reel-stop'))
+  expect(screen.getByText('Этот приз получаешь ты')).toBeTruthy()
+  expect(screen.queryByText('Это задание выполняешь ты')).toBeNull()
+})
+
 it('runs the bonus case without recording again, then closes', () => {
   const onOpened = vi.fn()
   const onClose = vi.fn()

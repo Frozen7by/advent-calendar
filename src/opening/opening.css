@@ -80,10 +80,24 @@
   font-size: 18px;
 }
 
+/* Under the revealed drop: whose chore or prize it is. */
+.stage__owner {
+  margin: 0;
+  padding: 0 20px;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+
 /* A phone held sideways: the reveal lies flat so the collect button stays on screen. */
 @media (orientation: landscape) and (max-height: 480px) {
   .stage__scene {
     gap: 10px;
+  }
+
+  .stage__owner {
+    font-size: 17px;
   }
 
   .stage__title {

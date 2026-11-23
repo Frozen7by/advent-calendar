@@ -39,6 +39,21 @@
   text-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
 }
 
+/* The rule of the game, always in view above the list. */
+.gifts__rule {
+  width: 100%;
+  max-width: 640px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--card-edge);
+  background: var(--night-deep);
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+}
+
 .gifts__empty {
   margin: auto;
   padding: 0 24px 20vh;

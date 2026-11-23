@@ -54,6 +54,9 @@ These override the design document where they differ.
 - The reading chore is removed (homework was already in the list), and
   «Накрыть на стол» became «Приготовить покушать».
 - The reel spins for 10 seconds.
+- The app says outright that every chore is done by the child who uses the
+  calendar, and that the prizes go to the same child: a line under each
+  revealed drop and a rule at the top of «Мои подарки».
 - Eight extra doors for 23–30 November come before the December doors, each
   opening on its own date. Each holds one case whose grade is drawn at random
   with the December weights (12 : 7 : 4 : 1); Roblox chances and amount limits

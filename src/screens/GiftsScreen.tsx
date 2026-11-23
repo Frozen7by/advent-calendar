@@ -21,6 +21,7 @@ export function GiftsScreen({ gifts, onBack }: GiftsScreenProps) {
         </button>
         <h1 className="gifts__title">{t('gifts.title')}</h1>
       </header>
+      <p className="gifts__rule">{t('gifts.rule')}</p>
 
       {gifts.length === 0 ? (
         <p className="gifts__empty">{t('gifts.empty')}</p>

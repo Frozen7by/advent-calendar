@@ -86,6 +86,8 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
           >
             <DropCard drop={current.drop} variant="reveal" />
           </motion.div>
+          {/* No room for argument: the chore is the child's to do, the prize the child's to get. */}
+          <p className="stage__owner">{isGold ? t('stage.yourPrize') : t('stage.yourChore')}</p>
           <button type="button" className="chunky-button" data-testid="collect" onClick={collect}>
             {t('stage.collect')}
           </button>
