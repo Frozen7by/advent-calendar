@@ -73,6 +73,31 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
+.grade-pill,
+.bonus-pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.grade-pill {
+  background: var(--grade);
+  color: #0b1430;
+}
+
+.bonus-pill {
+  background: #0b1430;
+  color: var(--gold);
+}
+
+.deal-problems {
+  padding: 24px;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 /* A big pressable game button: flat face on a hard shadow that it sinks into. */
 .chunky-button {
   padding: 14px 34px;
