@@ -15,13 +15,13 @@ function browserStorage(): StorageLike {
 
 /** The doors opened on this device, kept in `localStorage`. */
 export function useOpened() {
-  const [opened, setOpened] = useState<ReadonlySet<number>>(() => loadOpened(browserStorage()))
+  const [opened, setOpened] = useState<ReadonlySet<string>>(() => loadOpened(browserStorage()))
   const current = useRef(opened)
 
   /** Saves synchronously, so the door stays opened even if the app is closed right after. */
-  const markOpened = useCallback((day: number) => {
-    if (current.current.has(day)) return
-    const next = new Set(current.current).add(day)
+  const markOpened = useCallback((id: string) => {
+    if (current.current.has(id)) return
+    const next = new Set(current.current).add(id)
     current.current = next
     saveOpened(browserStorage(), next)
     setOpened(next)
@@ -33,7 +33,7 @@ export function useOpened() {
     } catch {
       // Nothing was saved, so there is nothing to clear.
     }
-    current.current = new Set()
+    current.current = new Set<string>()
     setOpened(current.current)
   }, [])
 

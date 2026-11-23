@@ -28,17 +28,26 @@ to GitHub Pages. The build uses relative paths, so it works from the
 
 ## The deal
 
-Every door's case grade and drop is fixed in advance in `src/data/deal.json`.
+Every door's case grade and drop is fixed in advance: December's 24 doors in
+`src/data/deal.json`, the eight extra doors for 23–30 November in
+`src/data/november.json`. The November doors come first on the calendar and
+open on their own November dates.
 
 ```sh
-npm run deal            # deal a new month, overwrite the file, print it
-npm run deal -- --show  # print the current month and its Roblox total
+npm run deal                 # deal a new December, overwrite deal.json, print it
+npm run deal -- --november   # deal new November doors, overwrite november.json, print them
+npm run deal -- --show       # print both months and their Roblox totals
 ```
 
-The file can be edited by hand, for example to move a Roblox drop to another
-day. Run `npm run deal -- --show` afterwards to check it is still valid.
+The November doors follow the December odds, with one difference: each door's
+grade is drawn at random (12 : 7 : 4 : 1), so there are no bonus cases and no
+guaranteed epic.
 
-Once December has started:
+The files can be edited by hand, for example to move a Roblox drop to another
+day. Run `npm run deal -- --show` afterwards to check they are still valid.
+
+Once a month's first door is open (23 November for `november.json`,
+1 December for `deal.json`):
 
 - Never run `npm run deal` again, and only edit doors that are not opened yet.
   Opened doors and «Мои подарки» read this file, so their drops would change.

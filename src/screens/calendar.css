@@ -17,22 +17,25 @@
   text-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
 }
 
-/* All 24 doors fit one screen: 4 across in portrait, 6 across in landscape. */
+/*
+ * All 32 doors (8 in November, 24 in December) fit one screen: 4 across in
+ * portrait, 8 across in landscape. Either way November fills whole rows.
+ */
 .calendar__grid {
   flex: 1;
   min-height: 0;
   width: 100%;
-  max-width: 980px;
+  max-width: 1100px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  gap: clamp(8px, 2vmin, 14px);
+  grid-template-rows: repeat(8, 1fr);
+  gap: clamp(6px, 1.6vmin, 12px);
 }
 
 @media (orientation: landscape) {
   .calendar__grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(4, 1fr);
   }
 }
@@ -78,10 +81,22 @@
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: inherit;
   transform-origin: 0 50%;
+  line-height: 1;
+}
+
+/* The month under the number on the November doors. */
+.door__month {
+  margin-top: 0.15em;
+  font-family: var(--text);
+  font-size: 0.36em;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .door[data-state='locked'] .door__leaf {

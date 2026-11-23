@@ -14,8 +14,12 @@ function fakeStorage(initial?: string | null): StorageLike {
 
 it('round-trips the opened set', () => {
   const storage = fakeStorage()
-  saveOpened(storage, new Set([1, 5]))
-  expect(loadOpened(storage)).toEqual(new Set([1, 5]))
+  saveOpened(storage, new Set(['2026-12-05', '2026-11-23']))
+  expect(loadOpened(storage)).toEqual(new Set(['2026-11-23', '2026-12-05']))
+})
+
+it('reads December door numbers saved by the first version as December date ids', () => {
+  expect(loadOpened(fakeStorage('[1,24]'))).toEqual(new Set(['2026-12-01', '2026-12-24']))
 })
 
 it.each([
@@ -26,8 +30,10 @@ it.each([
   expect(loadOpened(fakeStorage(raw)).size).toBe(0)
 })
 
-it('drops entries that are not door numbers', () => {
-  expect(loadOpened(fakeStorage('[1,"2",0,25,3.5,7,7]'))).toEqual(new Set([1, 7]))
+it('drops entries that are not doors', () => {
+  expect(loadOpened(fakeStorage('[1,"2",0,25,3.5,7,7,"2026-11-23","2026-11-23","23 Nov",null]'))).toEqual(
+    new Set(['2026-12-01', '2026-12-07', '2026-11-23']),
+  )
 })
 
 it('survives storage that throws', () => {
@@ -41,5 +47,5 @@ it('survives storage that throws', () => {
     removeItem() {},
   }
   expect(loadOpened(broken).size).toBe(0)
-  expect(() => saveOpened(broken, new Set([1]))).not.toThrow()
+  expect(() => saveOpened(broken, new Set(['2026-12-01']))).not.toThrow()
 })

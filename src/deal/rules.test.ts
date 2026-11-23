@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { isRoblox } from './drops.ts'
-import { generateDeal, mulberry32, robloxCount, robloxDollars, validateDeal } from './rules.ts'
+import {
+  NOVEMBER_DAYS,
+  ROBLOX_BY_GRADE,
+  ROBLOX_CHANCE,
+  generateDeal,
+  generateNovember,
+  mulberry32,
+  robloxCount,
+  robloxDollars,
+  validateDeal,
+} from './rules.ts'
 import type { Grade } from './types.ts'
 
 const deals = Array.from({ length: 300 }, (_, i) => generateDeal(mulberry32(i + 1)))
@@ -72,7 +82,54 @@ it('deals Roblox amounts of $2, $5, $10 and $20, smaller ones more often', () =>
   expect(robloxDollars([{ day: 1, cases: [{ grade: 'rare', drop: 'roblox5' }, { grade: 'epic', drop: 'roblox20' }] }])).toBe(25)
 })
 
+describe('generateNovember', () => {
+  const novembers = Array.from({ length: 3000 }, (_, i) => generateNovember(mulberry32(9000 + i)))
+
+  it('has one case behind each of the doors 23..30 November', () => {
+    for (const n of novembers.slice(0, 300)) {
+      expect(n.map((x) => x.day)).toEqual([23, 24, 25, 26, 27, 28, 29, 30])
+      expect(n.every((x) => x.cases.length === 1)).toBe(true)
+      expect(validateDeal(n, NOVEMBER_DAYS)).toEqual([])
+    }
+  })
+
+  it('weights each door grade 12 : 7 : 4 : 1, with no guaranteed epic', () => {
+    const grades = novembers.flatMap((n) => n.map((x) => x.cases[0].grade))
+    const share = (g: Grade) => grades.filter((x) => x === g).length / grades.length
+    expect(share('common')).toBeCloseTo(12 / 24, 1)
+    expect(share('uncommon')).toBeCloseTo(7 / 24, 1)
+    expect(share('rare')).toBeCloseTo(4 / 24, 1)
+    expect(share('epic')).toBeGreaterThan(0.03)
+    expect(share('epic')).toBeLessThan(0.055)
+  })
+
+  it('uses the December Roblox chance and amount limits per grade', () => {
+    const cases = novembers.flatMap((n) => n.map((x) => x.cases[0]))
+    for (const grade of ['common', 'uncommon', 'rare', 'epic'] as const) {
+      const ofGrade = cases.filter((c) => c.grade === grade)
+      const roblox = ofGrade.filter((c) => isRoblox(c.drop))
+      expect(roblox.length / ofGrade.length).toBeCloseTo(ROBLOX_CHANCE[grade], 1)
+      for (const c of roblox) expect(ROBLOX_BY_GRADE[grade]).toContain(c.drop)
+    }
+  })
+
+  it('never repeats a chore from the previous door', () => {
+    for (const n of novembers.slice(0, 300)) {
+      n.forEach((door, i) => {
+        if (i > 0 && !isRoblox(door.cases[0].drop)) expect(door.cases[0].drop).not.toBe(n[i - 1].cases[0].drop)
+      })
+    }
+  })
+})
+
 describe('validateDeal', () => {
+  it('checks a November deal against the November doors', () => {
+    const november = generateNovember(mulberry32(3))
+    expect(validateDeal(november)).not.toEqual([])
+    expect(validateDeal(deals[0], NOVEMBER_DAYS)).not.toEqual([])
+    expect(validateDeal(november.slice(1), NOVEMBER_DAYS)).not.toEqual([])
+  })
+
   it('accepts generated deals and valid hand edits', () => {
     for (const d of deals) expect(validateDeal(d)).toEqual([])
     const edited = structuredClone(deals[0])

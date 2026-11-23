@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DropCard } from '../components/DropCard.tsx'
 import { isRoblox } from '../deal/drops.ts'
-import type { DealDoor } from '../deal/types.ts'
+import type { CalendarDoor } from '../calendar/logic.ts'
 import { playFanfare, playTick, unlockAudio } from '../sound/sound.ts'
 import { CaseBox } from './CaseBox.tsx'
 import { celebrate } from './celebrate.ts'
@@ -12,9 +12,9 @@ import { Reel } from './Reel.tsx'
 import './opening.css'
 
 interface OpeningStageProps {
-  door: DealDoor
-  /** Called the moment the child taps the first case, before anything animates. */
-  onOpened: (day: number) => void
+  door: CalendarDoor
+  /** Called with the door's id the moment the child taps the first case, before anything animates. */
+  onOpened: (doorId: string) => void
   /** Called after the last case's drop has been collected. */
   onClose: () => void
 }
@@ -32,7 +32,7 @@ export function OpeningStage({ door, onOpened, onClose }: OpeningStageProps) {
     unlockAudio()
     // Record first: if the app is closed from here on, the door stays opened
     // and the animation is never offered again.
-    if (flow.caseIndex === 0) onOpened(door.day)
+    if (flow.caseIndex === 0) onOpened(door.id)
     setFlow(flowReducer(flow, 'tapCase', door.cases.length))
   }
 

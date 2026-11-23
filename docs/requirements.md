@@ -54,3 +54,8 @@ These override the design document where they differ.
 - The reading chore is removed (homework was already in the list), and
   «Накрыть на стол» became «Приготовить покушать».
 - The reel spins for 10 seconds.
+- Eight extra doors for 23–30 November come before the December doors, each
+  opening on its own date. Each holds one case whose grade is drawn at random
+  with the December weights (12 : 7 : 4 : 1); Roblox chances and amount limits
+  are the December ones. No bonus cases, no guaranteed epic. The December deal
+  is kept as it was.

@@ -1,0 +1,74 @@
+[
+  {
+    "day": 23,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "cleanRoom"
+      }
+    ]
+  },
+  {
+    "day": 24,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "makeBed"
+      }
+    ]
+  },
+  {
+    "day": 25,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "waterPlants"
+      }
+    ]
+  },
+  {
+    "day": 26,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "laundry"
+      }
+    ]
+  },
+  {
+    "day": 27,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "cleanRoom"
+      }
+    ]
+  },
+  {
+    "day": 28,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "laundry"
+      }
+    ]
+  },
+  {
+    "day": 29,
+    "cases": [
+      {
+        "grade": "common",
+        "drop": "cook"
+      }
+    ]
+  },
+  {
+    "day": 30,
+    "cases": [
+      {
+        "grade": "uncommon",
+        "drop": "roblox2"
+      }
+    ]
+  }
+]

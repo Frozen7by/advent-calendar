@@ -1,38 +1,39 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { doorState } from '../calendar/logic.ts'
+import { MONTH_KEY, doorState } from '../calendar/logic.ts'
+import type { CalendarDoor } from '../calendar/logic.ts'
 import { DROP_ICONS, isRoblox } from '../deal/drops.ts'
-import type { Deal, DealDoor } from '../deal/types.ts'
 import { Door } from './Door.tsx'
 import './calendar.css'
 
 interface CalendarScreenProps {
-  deal: Deal
+  doors: readonly CalendarDoor[]
   now: Date
-  opened: ReadonlySet<number>
-  /** The door currently swinging open or showing its case, if any. */
-  swingingDay: number | null
+  /** Ids of the doors opened on this device. */
+  opened: ReadonlySet<string>
+  /** Id of the door currently swinging open or showing its case, if any. */
+  swingingDoor: string | null
   /** An available door was tapped and may start swinging open. */
-  onSwingDoor: (day: number) => void
+  onSwingDoor: (doorId: string) => void
   /** The door has swung open: show its case. */
-  onOpenDoor: (day: number) => void
+  onOpenDoor: (doorId: string) => void
   onShowGifts: () => void
   /** Development only: forget which doors were opened. */
   onReset?: () => void
 }
 
 export function CalendarScreen({
-  deal,
+  doors,
   now,
   opened,
-  swingingDay,
+  swingingDoor,
   onSwingDoor,
   onOpenDoor,
   onShowGifts,
   onReset,
 }: CalendarScreenProps) {
   const { t } = useTranslation()
-  const [detail, setDetail] = useState<DealDoor | null>(null)
+  const [detail, setDetail] = useState<CalendarDoor | null>(null)
 
   return (
     <main className="calendar">
@@ -40,20 +41,20 @@ export function CalendarScreen({
       <h1 className="calendar__title">{t('app.title')}</h1>
 
       <div className="calendar__grid">
-        {deal.map((door) => {
-          const state = doorState(door.day, now, opened)
+        {doors.map((door) => {
+          const state = doorState(door, now, opened)
           return (
             <Door
-              key={door.day}
+              key={door.id}
               door={door}
               state={state}
-              swinging={swingingDay === door.day}
+              swinging={swingingDoor === door.id}
               onTap={() => {
                 if (state === 'opened') setDetail(door)
                 // One door at a time: taps on other doors wait until this one's case is done.
-                else if (swingingDay === null) onSwingDoor(door.day)
+                else if (swingingDoor === null) onSwingDoor(door.id)
               }}
-              onSwung={() => onOpenDoor(door.day)}
+              onSwung={() => onOpenDoor(door.id)}
             />
           )
         })}
@@ -73,7 +74,7 @@ export function CalendarScreen({
       {detail && (
         <div className="detail" onClick={() => setDetail(null)}>
           <div className="detail__sheet">
-            <p className="detail__date">{t('date.dec', { day: detail.day })}</p>
+            <p className="detail__date">{t(`date.${MONTH_KEY[detail.month]}`, { day: detail.day })}</p>
             {detail.cases.map((c, i) => (
               <div key={i} className="detail__gift" data-grade={c.grade} data-gold={isRoblox(c.drop) ? '' : undefined}>
                 <span className="detail__icon" aria-hidden="true">

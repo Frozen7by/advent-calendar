@@ -1,18 +1,42 @@
 import type { DropId } from '../deal/drops.ts'
-import type { Deal, Grade } from '../deal/types.ts'
+import type { Deal, DealDoor, Grade } from '../deal/types.ts'
 
 export const YEAR = 2026
-const DECEMBER = 11
+
+/** The calendar runs from 23 November through December. */
+export type Month = 11 | 12
+
+/** The i18n key of each month's date format (`date.nov`, `date.dec`). */
+export const MONTH_KEY = { 11: 'nov', 12: 'dec' } as const satisfies Record<Month, string>
 
 export type DoorState = 'locked' | 'available' | 'opened'
 
-/** Door N unlocks at local midnight on N December and stays unlocked afterwards. */
-export function doorState(day: number, now: Date, opened: ReadonlySet<number>): DoorState {
-  if (opened.has(day)) return 'opened'
-  return now.getTime() >= new Date(YEAR, DECEMBER, day).getTime() ? 'available' : 'locked'
+/** A door of the calendar: a deal door placed in its month. */
+export interface CalendarDoor extends DealDoor {
+  /** The door's date, like "2026-11-23": unique across both months, and what is saved once it is opened. */
+  id: string
+  month: Month
+}
+
+export function doorId(month: Month, day: number): string {
+  return `${YEAR}-${month}-${String(day).padStart(2, '0')}`
+}
+
+/** The November doors, then the December doors, in calendar order. */
+export function calendarDoors(november: Deal, december: Deal): CalendarDoor[] {
+  const place = (month: Month) => (door: DealDoor) => ({ id: doorId(month, door.day), month, ...door })
+  return [...november.map(place(11)), ...december.map(place(12))]
+}
+
+/** A door unlocks at local midnight on its date and stays unlocked afterwards. */
+export function doorState(door: CalendarDoor, now: Date, opened: ReadonlySet<string>): DoorState {
+  if (opened.has(door.id)) return 'opened'
+  return now.getTime() >= new Date(YEAR, door.month - 1, door.day).getTime() ? 'available' : 'locked'
 }
 
 export interface Gift {
+  doorId: string
+  month: Month
   day: number
   grade: Grade
   drop: DropId
@@ -21,10 +45,19 @@ export interface Gift {
 }
 
 /** Every drop from the opened doors, in door order. */
-export function giftList(deal: Deal, opened: ReadonlySet<number>): Gift[] {
-  return deal
-    .filter((door) => opened.has(door.day))
-    .flatMap((door) => door.cases.map((c, i) => ({ day: door.day, grade: c.grade, drop: c.drop, bonus: i > 0 })))
+export function giftList(doors: readonly CalendarDoor[], opened: ReadonlySet<string>): Gift[] {
+  return doors
+    .filter((door) => opened.has(door.id))
+    .flatMap((door) =>
+      door.cases.map((c, i) => ({
+        doorId: door.id,
+        month: door.month,
+        day: door.day,
+        grade: c.grade,
+        drop: c.drop,
+        bonus: i > 0,
+      })),
+    )
 }
 
 /**

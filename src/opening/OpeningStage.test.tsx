@@ -2,7 +2,7 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 import '../i18n/index.ts'
-import type { DealDoor } from '../deal/types.ts'
+import type { CalendarDoor } from '../calendar/logic.ts'
 import { OpeningStage } from './OpeningStage.tsx'
 
 // The real reel takes five seconds of animation; the test decides when it stops.
@@ -15,7 +15,9 @@ vi.mock('./celebrate.ts', () => ({ celebrate: () => {} }))
 
 afterEach(cleanup)
 
-const door: DealDoor = {
+const door: CalendarDoor = {
+  id: '2026-12-07',
+  month: 12,
   day: 7,
   cases: [
     { grade: 'common', drop: 'trash' },
@@ -28,7 +30,7 @@ it('records the door as opened on the first case tap, before the reel stops', ()
   render(<OpeningStage door={door} onOpened={onOpened} onClose={() => {}} />)
   expect(onOpened).not.toHaveBeenCalled()
   fireEvent.click(screen.getByTestId('case'))
-  expect(onOpened).toHaveBeenCalledExactlyOnceWith(7)
+  expect(onOpened).toHaveBeenCalledExactlyOnceWith('2026-12-07')
   expect(screen.getByTestId('reel-stop')).toBeTruthy()
   expect(screen.queryByTestId('collect')).toBeNull()
 })

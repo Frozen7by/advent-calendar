@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { MONTH_KEY } from '../calendar/logic.ts'
 import type { Gift } from '../calendar/logic.ts'
 import { DROP_ICONS, isRoblox } from '../deal/drops.ts'
 import './gifts.css'
@@ -27,7 +28,7 @@ export function GiftsScreen({ gifts, onBack }: GiftsScreenProps) {
         <ul className="gifts__list">
           {gifts.map((gift) => (
             <li
-              key={`${gift.day}-${gift.bonus ? 'bonus' : 'main'}`}
+              key={`${gift.doorId}-${gift.bonus ? 'bonus' : 'main'}`}
               className="gift"
               data-grade={gift.grade}
               data-gold={isRoblox(gift.drop) ? '' : undefined}
@@ -37,7 +38,7 @@ export function GiftsScreen({ gifts, onBack }: GiftsScreenProps) {
               </span>
               <span className="gift__body">
                 <span className="gift__text">{t(`drop.${gift.drop}`)}</span>
-                <span className="gift__date">{t('date.dec', { day: gift.day })}</span>
+                <span className="gift__date">{t(`date.${MONTH_KEY[gift.month]}`, { day: gift.day })}</span>
               </span>
               <span className="gift__tags">
                 <span className="grade-pill">{t(`rarity.${gift.grade}`)}</span>

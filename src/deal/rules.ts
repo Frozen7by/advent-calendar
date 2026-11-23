@@ -10,6 +10,16 @@ export const DOOR_COUNT = 24
 export const EPIC_DAY = 24
 export const BONUS_DOORS = 2
 
+/** Which days a deal file covers, in order. */
+export interface DealDays {
+  first: number
+  count: number
+}
+
+export const DECEMBER_DAYS: DealDays = { first: 1, count: DOOR_COUNT }
+/** The extra doors before December: 23–30 November. */
+export const NOVEMBER_DAYS: DealDays = { first: 23, count: 8 }
+
 export const GRADE_DOORS: Record<Grade, number> = { common: 12, uncommon: 7, rare: 4, epic: 1 }
 export const ROBLOX_CHANCE: Record<Grade, number> = { common: 0.01, uncommon: 0.1, rare: 0.25, epic: 0.95 }
 
@@ -43,13 +53,26 @@ function shuffle<T>(items: T[], rng: Rng): T[] {
 }
 
 /** A random grade weighted like the doors: 12 : 7 : 4 : 1. */
-function bonusGrade(rng: Rng): Grade {
+function weightedGrade(rng: Rng): Grade {
   let r = rng() * DOOR_COUNT
   for (const grade of GRADES) {
     if (r < GRADE_DOORS[grade]) return grade
     r -= GRADE_DOORS[grade]
   }
   return 'epic'
+}
+
+/** Fills one door's cases: Roblox by the grade's chance, otherwise a chore not used on the previous door. */
+function dealCases(grades: Grade[], previousChores: readonly ChoreId[], rng: Rng) {
+  const chores: ChoreId[] = []
+  const cases: DealCase[] = grades.map((grade) => {
+    if (rng() < ROBLOX_CHANCE[grade]) return { grade, drop: pickRoblox(rng(), ROBLOX_BY_GRADE[grade]) }
+    const allowed = CHORE_IDS.filter((c) => !previousChores.includes(c) && !chores.includes(c))
+    const chore = allowed[Math.floor(rng() * allowed.length)]
+    chores.push(chore)
+    return { grade, drop: chore }
+  })
+  return { cases, chores }
 }
 
 export function generateDeal(rng: Rng): Deal {
@@ -65,17 +88,24 @@ export function generateDeal(rng: Rng): Deal {
   let previousChores: ChoreId[] = []
   for (let day = 1; day <= DOOR_COUNT; day++) {
     const grades = [mainGrades[day - 1]]
-    if (bonusDays.has(day)) grades.push(bonusGrade(rng))
+    if (bonusDays.has(day)) grades.push(weightedGrade(rng))
 
-    const chores: ChoreId[] = []
-    const cases: DealCase[] = grades.map((grade) => {
-      if (rng() < ROBLOX_CHANCE[grade]) return { grade, drop: pickRoblox(rng(), ROBLOX_BY_GRADE[grade]) }
-      const allowed = CHORE_IDS.filter((c) => !previousChores.includes(c) && !chores.includes(c))
-      const chore = allowed[Math.floor(rng() * allowed.length)]
-      chores.push(chore)
-      return { grade, drop: chore }
-    })
+    const { cases, chores } = dealCases(grades, previousChores, rng)
+    deal.push({ day, cases })
+    previousChores = chores
+  }
+  return deal
+}
 
+/**
+ * The November doors: one case each, its grade drawn at random with the
+ * December weights (12 : 7 : 4 : 1). No bonus cases and no guaranteed epic.
+ */
+export function generateNovember(rng: Rng): Deal {
+  const deal: Deal = []
+  let previousChores: ChoreId[] = []
+  for (let day = NOVEMBER_DAYS.first; day < NOVEMBER_DAYS.first + NOVEMBER_DAYS.count; day++) {
+    const { cases, chores } = dealCases([weightedGrade(rng)], previousChores, rng)
     deal.push({ day, cases })
     previousChores = chores
   }
@@ -90,10 +120,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  * Checks the shape of a deal, not its odds: the parent may hand-edit drops.
  * Returns human-readable problems; an empty list means the deal is usable.
  */
-export function validateDeal(value: unknown): string[] {
+export function validateDeal(value: unknown, days: DealDays = DECEMBER_DAYS): string[] {
   if (!Array.isArray(value)) return ['The deal must be a list of doors.']
   const problems: string[] = []
-  if (value.length !== DOOR_COUNT) problems.push(`Expected ${DOOR_COUNT} doors, found ${value.length}.`)
+  if (value.length !== days.count) problems.push(`Expected ${days.count} doors, found ${value.length}.`)
 
   value.forEach((door: unknown, i) => {
     const where = `Door at position ${i + 1}`
@@ -101,7 +131,8 @@ export function validateDeal(value: unknown): string[] {
       problems.push(`${where} is not an object.`)
       return
     }
-    if (door.day !== i + 1) problems.push(`${where} has day ${String(door.day)}, expected ${i + 1}.`)
+    const day = days.first + i
+    if (door.day !== day) problems.push(`${where} has day ${String(door.day)}, expected ${day}.`)
     const cases = door.cases
     if (!Array.isArray(cases) || cases.length < 1 || cases.length > 2) {
       problems.push(`${where} must have one or two cases.`)

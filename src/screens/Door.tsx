@@ -1,15 +1,16 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { DropCard } from '../components/DropCard.tsx'
-import type { DoorState } from '../calendar/logic.ts'
-import type { DealDoor } from '../deal/types.ts'
+import { MONTH_KEY } from '../calendar/logic.ts'
+import type { CalendarDoor, DoorState } from '../calendar/logic.ts'
 import { unlockAudio } from '../sound/sound.ts'
 
 /** How far the door leaf swings on its hinge: open, but still inside its own tile. */
 const OPEN_ANGLE = -78
 
 interface DoorProps {
-  door: DealDoor
+  door: CalendarDoor
   state: DoorState
   /** True while this door is swinging open on the way to its case. Owned by the app, one door at a time. */
   swinging: boolean
@@ -20,8 +21,11 @@ interface DoorProps {
 }
 
 export function Door({ door, state, swinging, onTap, onSwung }: DoorProps) {
+  const { t } = useTranslation()
   const [shaking, setShaking] = useState(false)
   const reduceMotion = useReducedMotion()
+  // December is the calendar proper; the extra November doors carry their month on the leaf.
+  const monthTag = door.month === 11 ? t('monthShort.nov') : null
 
   const tap = () => {
     if (state === 'locked') {
@@ -41,13 +45,14 @@ export function Door({ door, state, swinging, onTap, onSwung }: DoorProps) {
       data-swinging={swinging ? '' : undefined}
       // The grade stays a surprise until the door has been opened.
       data-grade={state === 'opened' ? door.cases[0].grade : undefined}
-      aria-label={String(door.day)}
+      data-month={door.month}
+      aria-label={t(`date.${MONTH_KEY[door.month]}`, { day: door.day })}
       onClick={tap}
       onAnimationEnd={() => setShaking(false)}
     >
       {state === 'opened' && (
         <span className="door__inside" data-count={door.cases.length}>
-          <span className="door__tag">{door.day}</span>
+          <span className="door__tag">{monthTag ? `${door.day} ${monthTag}` : door.day}</span>
           {door.cases.map((c, i) => (
             <DropCard key={i} drop={c.drop} variant="door" />
           ))}
@@ -63,6 +68,7 @@ export function Door({ door, state, swinging, onTap, onSwung }: DoorProps) {
         }}
       >
         {door.day}
+        {monthTag && <span className="door__month">{monthTag}</span>}
       </motion.span>
     </button>
   )

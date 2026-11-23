@@ -1,8 +1,13 @@
 import { expect, it } from 'vitest'
-import { validateDeal } from '../deal/rules.ts'
+import { NOVEMBER_DAYS, validateDeal } from '../deal/rules.ts'
 import dealJson from './deal.json'
+import novemberJson from './november.json'
 
-// Guards the committed file: a hand-edit mistake fails here before the deploy builds.
-it('ships a deal file the app can use', () => {
+// Guards the committed files: a hand-edit mistake fails here before the deploy builds.
+it('ships a December deal file the app can use', () => {
   expect(validateDeal(dealJson)).toEqual([])
+})
+
+it('ships a November deal file the app can use', () => {
+  expect(validateDeal(novemberJson, NOVEMBER_DAYS)).toEqual([])
 })
