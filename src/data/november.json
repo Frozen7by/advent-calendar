@@ -62,7 +62,7 @@
     "cases": [
       {
         "grade": "common",
-        "drop": "cook"
+        "drop": "noGadgets"
       }
     ]
   },

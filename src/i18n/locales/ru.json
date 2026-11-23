@@ -17,7 +17,8 @@
     "laundry": "Положить грязную одежду в корзину для белья",
     "cook": "Приготовить покушать",
     "waterPlants": "Полить цветы",
-    "dictation": "Написать диктант"
+    "dictation": "Написать диктант",
+    "noGadgets": "День без гаджетов"
   },
   "dropShort": {
     "roblox2": "Roblox $2",
@@ -35,7 +36,8 @@
     "laundry": "Одежда",
     "cook": "Еда",
     "waterPlants": "Цветы",
-    "dictation": "Диктант"
+    "dictation": "Диктант",
+    "noGadgets": "Без гаджетов"
   },
   "calendar": { "gifts": "Мои подарки" },
   "stage": {

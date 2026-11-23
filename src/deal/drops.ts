@@ -10,6 +10,7 @@ export const CHORE_IDS = [
   'cook',
   'waterPlants',
   'dictation',
+  'noGadgets',
 ] as const
 
 export type ChoreId = (typeof CHORE_IDS)[number]
@@ -70,4 +71,5 @@ export const DROP_ICONS: Record<DropId, string> = {
   cook: '🍳',
   waterPlants: '🪴',
   dictation: '✍️',
+  noGadgets: '📵',
 }

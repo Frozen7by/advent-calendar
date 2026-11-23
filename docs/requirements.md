@@ -56,6 +56,8 @@ These override the design document where they differ.
 - The reel spins for 10 seconds.
 - «Написать диктант» is added to the chores. It was placed by hand on the
   28 November door; nothing was re-dealt.
+- «День без гаджетов» is added to the chores. It was placed by hand on the
+  29 November door, replacing «Приготовить покушать»; nothing was re-dealt.
 - An installed app updates itself: it looks for a new version whenever it is
   opened or brought to the front, and reloads once the version has arrived,
   but never while a door is opening. The version (commit count and short hash)
